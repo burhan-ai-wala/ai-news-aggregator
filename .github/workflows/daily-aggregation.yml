@@ -1,9 +1,9 @@
 name: Daily AI News Aggregation
 
 on:
-  # Run daily at 12:00 noon UTC
+  # Run daily at 12:00 noon IST (6:30 AM UTC)
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '30 6 * * *'
 
   # Allow manual trigger
   workflow_dispatch:
@@ -35,7 +35,7 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
 
           # Aggregation settings
-          SCHEDULE_CRON: '0 12 * * *'
+          SCHEDULE_CRON: '30 6 * * *'
           MAX_ARTICLES_PER_SOURCE: 50
           MIN_RELEVANCE_SCORE: 0.6
           OUTPUT_DIR: ./output
