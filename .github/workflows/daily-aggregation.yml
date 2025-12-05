@@ -1,0 +1,59 @@
+name: Daily AI News Aggregation
+
+on:
+  # Run daily at 12:00 noon UTC
+  schedule:
+    - cron: '0 12 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  aggregate-news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run news aggregation
+        env:
+          # Email configuration from GitHub secrets
+          ENABLE_EMAIL: true
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+
+          # Aggregation settings
+          SCHEDULE_CRON: '0 12 * * *'
+          MAX_ARTICLES_PER_SOURCE: 50
+          MIN_RELEVANCE_SCORE: 0.6
+          OUTPUT_DIR: ./output
+          LOG_LEVEL: info
+        run: npm run dev run
+
+      - name: Upload reports as artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-reports-${{ github.run_number }}
+          path: output/
+          retention-days: 30
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 7
