@@ -1,7 +1,9 @@
 node_modules/
 dist/
-output/
-logs/
+output/*
+!output/.gitkeep
+logs/*
+!logs/.gitkeep
 *.log
 .env
 .DS_Store
