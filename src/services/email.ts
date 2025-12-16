@@ -165,6 +165,27 @@ export class EmailService {
             font-size: 14px;
             color: #444;
         }
+        .sources {
+            margin-top: 10px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .sources-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        .source-link {
+            display: block;
+            color: #667eea;
+            text-decoration: none;
+            margin: 3px 0;
+        }
+        .source-link:hover {
+            text-decoration: underline;
+        }
         .tags {
             margin-top: 10px;
         }
@@ -218,11 +239,21 @@ export class EmailService {
         <div class="article">
             <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
             <div class="article-meta">
-                <strong>Source:</strong> ${article.source} |
                 <strong>Published:</strong> ${new Date(article.publishedAt).toLocaleDateString()} |
                 <span class="score">${(article.relevanceScore * 100).toFixed(0)}%</span>
             </div>
             <div class="article-description">${article.description}</div>
+            ${article.sources && article.sources.length > 0 ? `
+            <div class="sources">
+                <div class="sources-title">📰 Found in ${article.sources.length} source${article.sources.length > 1 ? 's' : ''}:</div>
+                ${article.sources.map(source => `<a href="${source.url}" class="source-link" target="_blank">• ${source.name}</a>`).join('')}
+            </div>
+            ` : `
+            <div class="sources">
+                <div class="sources-title">📰 Source:</div>
+                <a href="${article.url}" class="source-link" target="_blank">• ${article.source}</a>
+            </div>
+            `}
             <div class="tags">
                 ${article.categories.map((cat) => `<span class="tag">${cat}</span>`).join('')}
                 ${article.location ? `<span class="tag">📍 ${article.location}</span>` : ''}
@@ -260,10 +291,20 @@ export class EmailService {
 
     topArticles.forEach((article, index) => {
       text += `${index + 1}. ${article.title}\n`;
-      text += `   Source: ${article.source} | Relevance: ${(article.relevanceScore * 100).toFixed(0)}%\n`;
+      text += `   Relevance: ${(article.relevanceScore * 100).toFixed(0)}% | Published: ${new Date(article.publishedAt).toLocaleDateString()}\n`;
       text += `   ${article.description}\n`;
-      text += `   Categories: ${article.categories.join(', ')}\n`;
-      text += `   Link: ${article.url}\n\n`;
+
+      if (article.sources && article.sources.length > 0) {
+        text += `   Found in ${article.sources.length} source${article.sources.length > 1 ? 's' : ''}:\n`;
+        article.sources.forEach(source => {
+          text += `     • ${source.name}: ${source.url}\n`;
+        });
+      } else {
+        text += `   Source: ${article.source}\n`;
+        text += `   Link: ${article.url}\n`;
+      }
+
+      text += `   Categories: ${article.categories.join(', ')}\n\n`;
     });
 
     if (articles.length > 10) {

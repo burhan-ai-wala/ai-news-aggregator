@@ -262,3 +262,19 @@ For issues:
 2. Verify .env configuration
 3. Test with a simple email provider first (Gmail)
 4. Review this guide for common issues
+
+
+## Email to be sent to
+devik.kaul@interviewkickstart.com, burhan@interviewkickstart.com,
+abhinav.r@interviewkickstart.com,
+himanshu.meena@interviewkickstart.com,
+madan.rawtani@interviewkickstart.com,
+abhishek.sharma@interviewkickstart.com,
+kartikey.sharma@interviewkickstart.com,
+vanda@interviewkickstart.com,
+swapnil.srivastava@interviewkickstart.com,
+aashish.kumar@interviewkickstart.com,
+ryan@interviewkickstart.com,
+raghav@interviewkickstart.com,
+payal.saxena@interviewkickstart.com,
+soham@interviewkickstart.com 

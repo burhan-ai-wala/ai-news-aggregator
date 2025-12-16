@@ -1,3 +1,9 @@
+export interface SourceReference {
+  name: string;
+  url: string;
+  publishedAt: Date;
+}
+
 export interface NewsArticle {
   id: string;
   title: string;
@@ -5,6 +11,7 @@ export interface NewsArticle {
   content: string;
   url: string;
   source: string;
+  sources: SourceReference[]; // Multiple sources for same article
   author?: string;
   publishedAt: Date;
   relevanceScore: number;

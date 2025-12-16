@@ -92,6 +92,7 @@ export class RSSFetcher {
       content: content.trim(),
       url,
       source: sourceName,
+      sources: [],
       author: item.creator || item.author,
       publishedAt: item.pubDate ? new Date(item.pubDate) : new Date(),
       relevanceScore,

@@ -6,11 +6,13 @@ export class NewsAggregator {
   private rssFetcher: RSSFetcher;
   private minRelevanceScore: number;
   private maxArticlesPerSource: number;
+  private topArticlesLimit: number;
 
-  constructor(minRelevanceScore = 0.6, maxArticlesPerSource = 50) {
+  constructor(minRelevanceScore = 0.6, maxArticlesPerSource = 50, topArticlesLimit = 10) {
     this.rssFetcher = new RSSFetcher();
     this.minRelevanceScore = minRelevanceScore;
     this.maxArticlesPerSource = maxArticlesPerSource;
+    this.topArticlesLimit = topArticlesLimit;
   }
 
   /**
@@ -64,36 +66,87 @@ export class NewsAggregator {
       }
     }
 
-    // Remove duplicates and sort by relevance
-    const uniqueArticles = this.deduplicateArticles(allArticles);
-    const sortedArticles = uniqueArticles.sort(
+    // Remove duplicates and group similar articles
+    const groupedArticles = this.groupDuplicateArticles(allArticles);
+
+    // Sort by relevance and get top N
+    const sortedArticles = groupedArticles.sort(
       (a, b) => b.relevanceScore - a.relevanceScore
     );
 
+    const topArticles = sortedArticles.slice(0, this.topArticlesLimit);
+
     logger.info(
-      `Aggregation complete: ${sortedArticles.length} unique articles`
+      `Aggregation complete: ${topArticles.length} top articles from ${sortedArticles.length} unique articles`
     );
-    return sortedArticles;
+    return topArticles;
   }
 
   /**
-   * Remove duplicate articles based on ID and similar titles
+   * Group duplicate articles by similar titles and merge their sources
    */
-  private deduplicateArticles(articles: NewsArticle[]): NewsArticle[] {
-    const seen = new Set<string>();
-    const unique: NewsArticle[] = [];
+  private groupDuplicateArticles(articles: NewsArticle[]): NewsArticle[] {
+    const articleMap = new Map<string, NewsArticle>();
 
     for (const article of articles) {
-      const normalizedTitle = article.title.toLowerCase().trim();
+      const normalizedTitle = this.normalizeTitle(article.title);
 
-      if (!seen.has(article.id) && !seen.has(normalizedTitle)) {
-        seen.add(article.id);
-        seen.add(normalizedTitle);
-        unique.push(article);
+      if (articleMap.has(normalizedTitle)) {
+        // Article with similar title exists, merge sources
+        const existingArticle = articleMap.get(normalizedTitle)!;
+
+        // Add this source to the existing article
+        existingArticle.sources.push({
+          name: article.source,
+          url: article.url,
+          publishedAt: article.publishedAt,
+        });
+
+        // Use the highest relevance score
+        if (article.relevanceScore > existingArticle.relevanceScore) {
+          existingArticle.relevanceScore = article.relevanceScore;
+        }
+
+        // Use the earliest publish date
+        if (article.publishedAt < existingArticle.publishedAt) {
+          existingArticle.publishedAt = article.publishedAt;
+        }
+
+        // Merge categories and keywords
+        existingArticle.categories = Array.from(
+          new Set([...existingArticle.categories, ...article.categories])
+        );
+        existingArticle.keywords = Array.from(
+          new Set([...existingArticle.keywords, ...article.keywords])
+        );
+      } else {
+        // New article, initialize sources array
+        article.sources = [{
+          name: article.source,
+          url: article.url,
+          publishedAt: article.publishedAt,
+        }];
+        articleMap.set(normalizedTitle, article);
       }
     }
 
-    return unique;
+    return Array.from(articleMap.values());
+  }
+
+  /**
+   * Normalize title for similarity matching
+   */
+  private normalizeTitle(title: string): string {
+    return title
+      .toLowerCase()
+      .trim()
+      // Remove common punctuation and special characters
+      .replace(/[^\w\s]/g, ' ')
+      // Remove extra whitespace
+      .replace(/\s+/g, ' ')
+      // Remove common filler words for better matching
+      .replace(/\b(the|a|an|and|or|but|in|on|at|to|for|of|with|by)\b/g, '')
+      .trim();
   }
 
   /**
