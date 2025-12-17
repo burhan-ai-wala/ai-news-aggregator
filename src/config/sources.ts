@@ -76,13 +76,13 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: 'AI Weekly Newsletter',
     type: 'rss',
-    url: 'https://aiweekly.co/feed/',
+    url: 'https://aiweekly.co/issues.rss',
     enabled: true,
   },
   {
     name: 'OpenAI Blog',
     type: 'rss',
-    url: 'https://openai.com/blog/rss/',
+    url: 'https://openai.com/blog/rss.xml',
     enabled: true,
   },
   {
@@ -95,6 +95,12 @@ export const NEWS_SOURCES: NewsSource[] = [
     name: 'DeepMind Blog',
     type: 'rss',
     url: 'https://deepmind.google/blog/rss.xml',
+    enabled: true,
+  },
+  {
+    name: 'Anthropic News',
+    type: 'rss',
+    url: 'https://www.anthropic.com/news.rss',
     enabled: true,
   },
 ];

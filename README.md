@@ -4,7 +4,7 @@ A powerful daily news aggregator that scans and filters AI-related tech job news
 
 ## Features
 
-- **Multi-Source Aggregation**: Fetches from 16+ curated RSS feeds including major tech news outlets, Reddit communities, and company blogs
+- **Multi-Source Aggregation**: Fetches from 17 curated RSS feeds including major tech news outlets, Reddit communities, and company blogs
 - **Intelligent Duplicate Detection**: Groups the same story from multiple sources and shows all source links
 - **Top 10 Ranking**: Automatically selects and delivers only the 10 most relevant articles daily
 - **Smart Filtering**: AI-powered relevance scoring based on keywords and content analysis
@@ -17,7 +17,7 @@ A powerful daily news aggregator that scans and filters AI-related tech job news
 
 ## News Sources
 
-The aggregator pulls from **16 curated sources**:
+The aggregator pulls from **17 curated sources**:
 
 ### Major Tech Publications
 - TechCrunch AI
@@ -38,6 +38,7 @@ The aggregator pulls from **16 curated sources**:
 - OpenAI Blog
 - Google AI Blog
 - DeepMind Blog
+- Anthropic News
 
 ### Tech Communities
 - Hacker News (AI-filtered)
@@ -115,7 +116,7 @@ npm run run
 ```
 
 This will:
-1. Fetch articles from all 16 configured sources
+1. Fetch articles from all 17 configured sources
 2. Filter and score articles based on relevance
 3. Group duplicate articles from multiple sources
 4. Select top 10 most relevant articles
@@ -219,10 +220,10 @@ ai-news-aggregator/
 ## How It Works
 
 ### 1. Source Aggregation
-The system fetches articles from 16 RSS feeds including:
+The system fetches articles from 17 RSS feeds including:
 - Major tech publications (TechCrunch, VentureBeat, MIT Tech Review, The Verge, Wired, Ars Technica)
 - Reddit communities (r/MachineLearning, r/artificial, r/ChatGPT, r/LocalLLaMA)
-- Company blogs (OpenAI, Google AI, DeepMind)
+- Company blogs (OpenAI, Google AI, DeepMind, Anthropic)
 - Tech communities (Hacker News, AI Weekly)
 
 ### 2. Relevance Scoring
@@ -336,7 +337,7 @@ Set `LOG_LEVEL` in .env to control verbosity: `error`, `warn`, `info`, `debug`
 - Added intelligent duplicate detection that groups similar articles
 - Implemented top 10 ranking system for most relevant articles
 - Enhanced email templates to show multiple sources per article
-- Expanded to 16 news sources including Reddit communities and company blogs
+- Expanded to 17 news sources including Reddit communities and company blogs (Anthropic, OpenAI, Google AI, DeepMind)
 - Improved title matching algorithm for better deduplication
 - Added SourceReference interface for tracking multiple article sources
 
