@@ -64,11 +64,11 @@ export class NewsScheduler {
         NEWS_SOURCES
       );
 
-      // Filter to last 24 hours
-      const recentArticles = this.aggregator.filterByTimeRange(articles, 24);
+      // Filter to last 48 hours
+      const recentArticles = this.aggregator.filterByTimeRange(articles, 48);
 
       if (recentArticles.length === 0) {
-        logger.warn('No relevant articles found in the last 24 hours');
+        logger.warn('No relevant articles found in the last 48 hours');
         return;
       }
 
