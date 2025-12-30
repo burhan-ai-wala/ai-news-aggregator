@@ -10,7 +10,7 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: 'VentureBeat AI',
     type: 'rss',
-    url: 'https://venturebeat.com/category/ai/feed/',
+    url: 'https://venturebeat.com/feed/',
     enabled: true,
   },
   {
@@ -100,7 +100,7 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: 'Anthropic News',
     type: 'rss',
-    url: 'https://www.anthropic.com/news.rss',
+    url: 'https://openrss.org/www.anthropic.com/news',
     enabled: true,
   },
 ];
