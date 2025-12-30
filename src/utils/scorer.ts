@@ -13,23 +13,23 @@ export class RelevanceScorer {
     let score = 0;
     let maxScore = 0;
 
-    // AI keyword scoring (40% weight)
+    // AI keyword scoring (70% weight)
     const aiMatches = this.countKeywordMatches(text, AI_KEYWORDS);
-    const aiScore = Math.min(aiMatches / 3, 1) * 0.4;
+    const aiScore = Math.min(aiMatches / 3, 1) * 0.7;
     score += aiScore;
-    maxScore += 0.4;
+    maxScore += 0.7;
 
-    // Tech job keyword scoring (40% weight)
+    // Tech job keyword scoring (20% weight)
     const jobMatches = this.countKeywordMatches(text, TECH_JOB_KEYWORDS);
-    const jobScore = Math.min(jobMatches / 3, 1) * 0.4;
+    const jobScore = Math.min(jobMatches / 3, 1) * 0.2;
     score += jobScore;
-    maxScore += 0.4;
-
-    // US location scoring (20% weight)
-    const locationMatches = this.countKeywordMatches(text, US_LOCATIONS);
-    const locationScore = Math.min(locationMatches / 2, 1) * 0.2;
-    score += locationScore;
     maxScore += 0.2;
+
+    // US location scoring (10% weight)
+    const locationMatches = this.countKeywordMatches(text, US_LOCATIONS);
+    const locationScore = Math.min(locationMatches / 2, 1) * 0.1;
+    score += locationScore;
+    maxScore += 0.1;
 
     return score;
   }
