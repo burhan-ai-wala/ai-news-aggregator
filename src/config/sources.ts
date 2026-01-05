@@ -10,7 +10,7 @@ export const NEWS_SOURCES: NewsSource[] = [
   {
     name: 'VentureBeat AI',
     type: 'rss',
-    url: 'https://venturebeat.com/feed/',
+    url: 'https://venturebeat.com/category/ai/feed/',
     enabled: true,
   },
   {
@@ -41,25 +41,25 @@ export const NEWS_SOURCES: NewsSource[] = [
     name: 'Reddit - Machine Learning',
     type: 'rss',
     url: 'https://www.reddit.com/r/MachineLearning/.rss',
-    enabled: true,
+    enabled: false,
   },
   {
     name: 'Reddit - Artificial Intelligence',
     type: 'rss',
     url: 'https://www.reddit.com/r/artificial/.rss',
-    enabled: true,
+    enabled: false,
   },
   {
     name: 'Reddit - ChatGPT',
     type: 'rss',
     url: 'https://www.reddit.com/r/ChatGPT/.rss',
-    enabled: true,
+    enabled: false,
   },
   {
     name: 'Reddit - LocalLLaMA',
     type: 'rss',
     url: 'https://www.reddit.com/r/LocalLLaMA/.rss',
-    enabled: true,
+    enabled: false,
   },
   {
     name: 'Ars Technica AI',
